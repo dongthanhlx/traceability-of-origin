@@ -15,6 +15,6 @@ class Customer extends Model
     ];
 
     protected $hidden = [
-        'id', 'deleted_at', 'created_at', 'updated_at'
+        'deleted_at', 'created_at', 'updated_at'
     ];
 }

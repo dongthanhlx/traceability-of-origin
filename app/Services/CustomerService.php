@@ -19,19 +19,9 @@ class CustomerService
     {
         return Customer::query()->where('code', '=', $code)
             ->whereYear('birthday', '=', $year)
-            ->first();
+            ->first()
+            ->makeHidden('id');
     }
-
-//    public function search($text, int $pageSize = 10) {
-//        return Customer::query()
-//            ->where('code', 'like', "%$text%")
-//            ->orWhere('patient', 'like', "%$text%")
-//            ->orWhere('doctor', 'like', "%$text%")
-//            ->orWhere('dentistry', 'like', "%$text%")
-//            ->orWhere('lab', 'like', "%$text%")
-//            ->orWhere('type', 'like', "%$text%")
-//            ->paginate($pageSize);
-//    }
 
     public function store(CustomerParams $params)
     {
