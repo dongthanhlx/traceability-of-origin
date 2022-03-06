@@ -1,7 +1,7 @@
 import axios from "axios";
-import $ from "jquery";
 
 export default () => ({
+    url: 'http://dentsplysironas.com',
     code: '',
     year: '',
     isAccept: false,
@@ -40,11 +40,10 @@ export default () => ({
             return;
         }
 
-        await axios.get(`http://localhost:8000/lookup?code=${this.code}&year=${this.year}`)
+        await axios.get(`${this.url}/lookup?code=${this.code}&year=${this.year}`)
             .then(response => {
                 if (response.data.patient) {
                     this.customer = response.data
-                    $('#show').click();
                 } else {
                     this.error = 'Mã thẻ hoặc năm sinh bạn nhập không chính xác. Vui lòng thử lại.'
                 }

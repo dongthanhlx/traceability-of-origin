@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export default () => ({
+    url: 'http://dentsplysironas.com',
     titles: ['Mã thẻ', 'Ngày kích hoạt', 'Bệnh nhân', 'Ngày sinh', 'Sđt', 'Bác sỹ', 'Nha khoa', 'Labo', 'Loại đĩa', 'SL răng', 'Vị trí răng'],
     fields: ['code', 'is_active', 'patient', 'birthday', 'phone', 'doctor', 'dentistry', 'lab', 'type', 'num_of_teeth', 'locations'],
     customersRoot: [],
@@ -9,7 +10,7 @@ export default () => ({
     searchable: ['code', 'patient', 'doctor', 'dentistry', 'lab', 'type'],
     text: '',
     async init() {
-        await axios.get('http://localhost:8000/adm/customers')
+        await axios.get(`${this.url}/adm/customers`)
             .then(response => {
                 this.customers = response.data.data;
                 this.customersRoot = this.customers;
@@ -20,9 +21,12 @@ export default () => ({
     },
 
     async store() {
-        await axios.post('http://localhost:8000/adm/customers', this.processing)
+        await axios.post(`${this.url}/adm/customers`, this.processing)
             .then(response => {
-                this.init();
+                if (response.data) {
+                    this.customersRoot.push(response.data);
+                    this.customers = this.customersRoot;
+                }
             })
             .catch(err => {
                 console.error(err);
@@ -30,7 +34,7 @@ export default () => ({
     },
 
     async update() {
-        await axios.put('http://localhost:8000/adm/customers/' + this.processing.id, this.processing)
+        await axios.put(`${this.url}/adm/customers/${this.processing.id}`, this.processing)
             .then(response => {
                 if (response.data) {
                     let cloneCustomers = [... this.customers ];
@@ -44,7 +48,7 @@ export default () => ({
     },
 
     async destroy() {
-        await axios.delete('http://localhost:8000/adm/customers/' + this.processing.id)
+        await axios.delete(`${this.url}/adm/customers/${this.processing.id}`)
             .then(response => {
                 if (response.data) {
                     let cloneCustomers = [... this.customers ];
@@ -66,6 +70,7 @@ export default () => ({
         let text = this.text.trim();
 
         if (text.replace(/\s/g, '') === '') {
+            this.customers = this.customersRoot;
             return;
         }
         console.log('ok')

@@ -9,6 +9,11 @@ use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index(CustomerService $service): JsonResponse
     {
         $pageSize = request()->query('pageSize', 10);

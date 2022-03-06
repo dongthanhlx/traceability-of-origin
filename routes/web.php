@@ -21,11 +21,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-//Auth::routes();
-
-Route::get('/home', [HomeController::class, 'index'])->name('home');
-
 Route::get('/lookup', LookupController::class);
+
+Auth::routes(['register' => false, 'reset' => false]);
 
 Route::prefix('adm')->group(function () {
     Route::get('/', [HomeController::class, 'index']);
